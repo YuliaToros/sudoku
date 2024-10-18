@@ -130,4 +130,28 @@ function isSolved(board) {
   }
 
   return true;
-}
+};
+
+function prettyBoard(board) {
+  /**
+   * Принимает игровое поле в том формате, в котором его вернули из функции solve.
+   * Выводит в консоль/терминал судоку.
+   */
+  const size = 9;
+  const boxSize = 3;
+
+  for (let i = 0; i < size; i++) {
+    if (i % boxSize === 0 && i !== 0) {
+      console.log('-'.repeat(size * 2 + boxSize - 1));
+    }
+    let row = '';
+    for (let j = 0; j < size; j++) {
+      if (j % boxSize === 0 && j !== 0) {
+        row += '|';
+      }
+      row += board[i][j] + ' ';
+    }
+    console.log(row.trim());
+  }
+};
+
