@@ -6,6 +6,7 @@ const fs = require("fs");
 return fs.readFileSync('./puzzles.txt', 'utf8');
 }
 
+
 function parseSudoku(sudokuText) { /** Преобразует строку судоку в двумерный массив */ 
   return arraySudoku = sudokuText.trim().split('\n').map(line => line.split('')); 
   
@@ -13,30 +14,82 @@ function parseSudoku(sudokuText) { /** Преобразует строку су�
 
 
 
-function solve() {
+
+function solveSudoku(board) {
   /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции read.
-   * Возвращает игровое поле после попытки его решить.
+   * Решает судоку с использованием алгоритма "backtracking"
    */
-  
+  const size = 9;
+  const boxSize = 3;
+
+  function findEmpty(board) {
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (board[r][c] === 0) {
+          return [r, c];
+        }
+      }
+    }
+    return null;
+  }
 
 
-}
+  function isValid(board, pos, num) {
+    const [r, c] = pos;
 
-// console.log(solve())
+    // Проверка строки
+    for (let i = 0; i < size; i++) {
+      if (board[r][i] === num && i !== c) {
+        return false;
+      }
+    }
 
+    // Проверка столбца
+    for (let i = 0; i < size; i++) {
+      if (board[i][c] === num && i !== r) {
+        return false;
+      }
+    }
 
-function isSolved() {
-  /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции solve.
-   * Возвращает булевое значение — решено это игровое поле или нет.
-   */
-}
+    // Проверка квадрата
+    const boxRow = Math.floor(r / boxSize) * boxSize;
+    const boxCol = Math.floor(c / boxSize) * boxSize;
 
-function prettyBoard() {
-  /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции solve.
-   * Выводит в консоль/терминал судоку.
-   * Подумай, как симпатичнее его вывести.
-   */
+    for (let i = boxRow; i < boxRow + boxSize; i++) {
+      for (let j = boxCol; j < boxCol + boxSize; j++) {
+        if (board[i][j] === num && i !== r && j !== c) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  function solve() {
+    const currentPos = findEmpty(board);
+
+    if (currentPos === null) {
+      return true;
+    }
+
+    const [r, c] = currentPos;
+
+    for (let num = 1; num <= 9; num++) {
+      if (isValid(board, currentPos, num)) {
+        board[r][c] = num;
+
+        if (solve()) {
+          return true;
+        }
+
+        board[r][c] = 0;
+      }
+    }
+
+    return false;
+  }
+
+  solve();
+  return board;
 }
