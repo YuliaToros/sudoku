@@ -2,18 +2,17 @@ function read() {
   /**
    * Прочесть файл puzzles.txt в кодировке 'utf-8' и вернуть эти данные из функции
    */
-const fs = require("fs");
-return fs.readFileSync('./puzzles.txt', 'utf8');
+  const fs = require('fs');
+  return fs.readFileSync('./puzzles.txt', 'utf8');
 }
 
-
-function parseSudoku(sudokuText) { /** Преобразует строку судоку в двумерный массив */ 
-  return arraySudoku = sudokuText.trim().split('\n').map(line => line.split('')); 
-  
+function parseSudoku(sudokuText) {
+  /** Преобразует строку судоку в двумерный массив */
+  return (arraySudoku = sudokuText
+    .trim()
+    .split('\n')
+    .map((line) => line.split('')));
 }
-
-
-
 
 function solveSudoku(board) {
   /**
@@ -32,7 +31,6 @@ function solveSudoku(board) {
     }
     return null;
   }
-
 
   function isValid(board, pos, num) {
     const [r, c] = pos;
@@ -130,7 +128,7 @@ function isSolved(board) {
   }
 
   return true;
-};
+}
 
 function prettyBoard(board) {
   /**
@@ -149,9 +147,10 @@ function prettyBoard(board) {
       if (j % boxSize === 0 && j !== 0) {
         row += '|';
       }
-      row += board[i][j] + ' ';
+      row += `${board[i][j]} `;
     }
     console.log(row.trim());
   }
-};
+}
 
+module.exports = { read, parseSudoku, solveSudoku, isSolved, prettyBoard };
