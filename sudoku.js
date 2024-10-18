@@ -93,3 +93,41 @@ function solveSudoku(board) {
   solve();
   return board;
 }
+function isSolved(board) {
+  // /
+  //  * Принимает игровое поле в том формате, в котором его вернули из функции solve.
+  //  * Возвращает булевое значение — решено это игровое поле или нет.
+  //  */
+  const size = 9;
+  const boxSize = 3;
+
+  // Проверка строк и столбцов
+  for (let i = 0; i < size; i++) {
+    const rowSet = new Set();
+    const colSet = new Set();
+    for (let j = 0; j < size; j++) {
+      rowSet.add(board[i][j]);
+      colSet.add(board[j][i]);
+    }
+    if (rowSet.size !== 9 || colSet.size !== 9) {
+      return false;
+    }
+  }
+
+  // Проверка квадратов 3x3
+  for (let row = 0; row < size; row += boxSize) {
+    for (let col = 0; col < size; col += boxSize) {
+      const boxSet = new Set();
+      for (let i = 0; i < boxSize; i++) {
+        for (let j = 0; j < boxSize; j++) {
+          boxSet.add(board[row + i][col + j]);
+        }
+      }
+      if (boxSet.size !== 9) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
