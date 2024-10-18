@@ -6,7 +6,14 @@ const fs = require("fs");
 return fs.readFileSync('./puzzles.txt', 'utf8');
 }
 
-//++++++
+
+function parseSudoku(sudokuText) { /** Преобразует строку судоку в двумерный массив */ 
+  return arraySudoku = sudokuText.trim().split('\n').map(line => line.split('')); 
+  
+}
+
+
+
 
 function solveSudoku(board) {
   /**
@@ -25,6 +32,7 @@ function solveSudoku(board) {
     }
     return null;
   }
+
 
   function isValid(board, pos, num) {
     const [r, c] = pos;
