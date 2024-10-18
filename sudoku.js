@@ -155,3 +155,10 @@ function prettyBoard(board) {
   }
 };
 
+module.exports = read;
+module.exports = parseSudoku;
+module.exports = solveSudoku;
+module.exports = isSolved;
+module.exports = prettyBoard;
+
+
